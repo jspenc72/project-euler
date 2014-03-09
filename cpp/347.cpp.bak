@@ -1,0 +1,99 @@
+#include <iostream>
+#include <vector>
+#include <map>
+#include <cmath>
+
+//const int N = 10000000;
+const int N = 100;
+
+typedef unsigned int uint;
+typedef unsigned long ulong;
+
+using namespace std;
+
+void trypows(int p, int q, int ppow, int big, int *max, int ms, map<int,int> &refmap, bool second);
+
+int main() {
+    vector<bool> isprime((N>>1)+1, true);
+    vector<int> primes;
+    for (int i = 2; i <= (int)sqrt(isprime.size()); i++) {
+        if (!isprime[i]) continue;
+        for (int j = i<<1; j < isprime.size(); j+=i) isprime[j] = false;
+    }
+    for (int i = 2; i < isprime.size(); i++) {
+        if (!isprime[i]) continue;
+        primes.push_back(i);
+    }
+
+    ulong sum = 0;
+    int m = primes.size();
+    for (int i = 0; i < m; i++) {
+        if (i%1000==0) cout << i << " " << primes[i] << endl;
+        for (int j = i+1; j < m; j++) {
+            int big = 0;
+            int p = primes[i];
+            int q = primes[j];
+            if (p*q > N) continue;
+            ulong ppow[50];
+            ulong qpow[50];
+            int pn=0, qn=0;
+            ulong cur = p;
+            ulong test = cur*q;
+            while (test <= N && test/q == cur) {
+                ppow[pn++] = cur;
+                ulong prod = cur*p;
+                if (prod/p !=  cur) break;
+                cur = prod;
+                test = cur*q;
+            }
+            //for (pn = 0; cur*q <= N; cur *= p) ppow[pn++] = cur;
+            cur = q;
+            test = cur*p;
+            while (test <= N && test/p ==  cur) {
+                qpow[qn++] = cur;
+                ulong prod = cur*q;
+                if (prod/q != cur) break;
+                cur = prod;
+                test = cur*p;
+            }
+            //for (qn = 0; cur*p <= N; cur *= q) qpow[qn++] = cur;
+            for (int i = 0; i < pn; i++) {
+                for (int j = 0; j < qn; j++) {
+                    ulong prod = ppow[i]*qpow[j];
+                    if (prod > N) break;
+                    if (prod > big) big = prod;
+                }
+            }
+//            while (cur*q <= N) {
+//                int prod = cur*q;
+//                while (prod*q <= N) prod *= q;
+//                if (prod > big) big = prod;
+//                cur *= p;
+//            }
+            sum += big;
+        }
+    }
+//    for (int i = 0; i < m; i++) for (int j = i+1; j < m; j++) {
+//        trypows(primes[i], primes[j], 0, N, (int*)max, m, pmap, false);
+//        sum += max[i][j];
+//        //cout << i << " " << j << " " << max[i][j] << endl;
+//    }
+    cout << sum << endl;
+}
+
+void trypows(int p, int q, int ppow, int big, int *max, int ms, map<int,int> &refmap, bool second) {
+    if (!second) {
+        int start = p;
+        while (start*q <= big) {
+            trypows(p, q, start, big, max, ms, refmap, true);
+            start *= p;
+        }
+    }
+    else {
+        int i = refmap[p];
+        int j = refmap[q];
+        ppow *= q;
+        while (ppow*q <= big) ppow *= q;
+        if (ppow > max[ms*i+j]) max[ms*i+j] = ppow;
+    }
+}
