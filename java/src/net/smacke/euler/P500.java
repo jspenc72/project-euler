@@ -17,7 +17,7 @@ public class P500 {
     private static final int M = 500500507;
     private static final boolean[] prime = new boolean[P];
 
-    private static List<Integer> ccalcprimes() {
+    private static List<Integer> calcprimes() {
         Arrays.fill(prime, true);
         prime[0] = prime[1] = false;
         for (int i=0; i*i<P; i++) {
@@ -38,7 +38,7 @@ public class P500 {
 
     public static void main(String[] args) {
         PriorityQueue<Long> q = new PriorityQueue<Long>();
-        List<Integer> primes = ccalcprimes();
+        List<Integer> primes = calcprimes();
 
         q.add((long)primes.get(0));
         int nextprime = 1;
