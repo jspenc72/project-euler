@@ -1,17 +1,8 @@
 #!/usr/bin/env python
 from itertools import count
+from utils import memoize
 
 N=51
-
-def memoize(f):
-    mem={}
-    def fm(*args):
-        if args in mem:
-            return mem[args]
-        else:
-            mem[args]=f(*args)
-            return mem[args]
-    return fm
 
 def squarefree(n,k,factor):
     fac = {}

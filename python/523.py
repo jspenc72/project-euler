@@ -1,14 +1,5 @@
 #!/usr/bin/env python
-
-def memoize(f):
-    _f = {}
-    def f_mem(*args):
-        if args in _f:
-            return _f[args]
-        ans = f(*args)
-        _f[args] = ans
-        return ans
-    return f_mem
+from utils import memoize
 
 @memoize
 def s(n):

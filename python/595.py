@@ -26,8 +26,7 @@ def c(n,k):
 
 @mem
 def number_of_permutations_with_no_internal_ordering(n):
-    if n==1:
-        return 1
+    if n==1: return 1
     ways = 0
     num_n_perms = fact(n)
     for i in xrange(1,n):
@@ -39,8 +38,7 @@ def number_of_permutations_with_no_internal_ordering(n):
 
 @mem
 def s(n):
-    if n==1:
-        return 0
+    if n==1: return 0
     ans = 0.
     ways = 0
     num_n_perms = fact(n)

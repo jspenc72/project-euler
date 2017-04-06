@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from collections import defaultdict
-from functools import wraps
+from utils import memoize
 
 # basic idea is to get the distribution of L-R at each turn
 # by computing it in terms of the distribution at the next turn.
@@ -11,17 +11,6 @@ from functools import wraps
 # we care about the order, but for things in robin's but not larry's, the order
 # of these things may as well be in sequence and starting from 5. this brings
 # the total size of the state we need to track down to 438 things, which is easy.
-
-def memoize(f):
-    _f={}
-    @wraps(f)
-    def mem_f(*args):
-        if args in _f:
-            return _f[args]
-        ret = f(*args)
-        _f[args] = ret
-        return ret
-    return mem_f
 
 MAX_STATE_SIZE=5
 allseen = set()
