@@ -22,6 +22,18 @@ def sieve(N):
             prime[j] = False
     return prime
 
+def _partitions(n,k):
+    if n==0:
+        yield []
+    else:
+        for i in xrange(1,min(k,n)+1):
+            for p in _partitions(n-i,i):
+                yield p + [i]
+
+def partitions(n):
+    for p in _partitions(n,n):
+        yield tuple(p)
+
 _fact=[1]
 def fact(n, mod=None):
     while len(_fact)<=n:
@@ -35,3 +47,30 @@ def c(n,k, mod=None):
         return fact(n,mod) * pow(fact(k,mod),mod-2,mod) * pow(fact(n-k,mod),mod-2,mod) % mod
     else:
         return fact(n) // fact(k) // fact(n-k)
+
+def _permutations(arr, i):
+    if i==len(arr):
+        yield arr
+    else:
+        for j in xrange(i,len(arr)):
+            arr[i], arr[j] = arr[j], arr[i]
+            for p in _permutations(arr,i+1):
+                yield p
+            arr[i], arr[j] = arr[j], arr[i]
+
+def permutations(arr):
+    if type(arr) == int:
+        arr = range(arr)
+    for p in _permutations(arr,0):
+        yield p
+
+def multinomial(ns, mod=None):
+    ret = fact(sum(ns), mod)
+    if mod:
+        for n in ns:
+            ret *= pow(fact(n,mod),mod-2,mod)
+            ret %= mod
+    else:
+        for n in ns:
+            ret //= fact(n)
+    return ret
