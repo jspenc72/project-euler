@@ -74,3 +74,12 @@ def multinomial(ns, mod=None):
         for n in ns:
             ret //= fact(n)
     return ret
+
+def lucas(n,k,p):
+    if n<k: return 0
+    ret=1
+    while n>0:
+        ret = (ret*c(n%p,k%p,mod=p))%p
+        n//=p
+        k//=p
+    return ret
