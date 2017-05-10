@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from utils import lucas
+from utils import c
 
 # first, figure out that:
 # e(n,p) == (1-p)**(n+1)*sum(k**n*p**k,k,1,oo)
@@ -13,5 +13,5 @@ K=4*10**6
 
 ans = 0
 for j in xrange(N-K+1):
-    ans = (ans + pow(-1,j)*lucas(N+1,j,mod)*pow(N-K+1-j,N,mod)%mod)%mod
+    ans = (ans + pow(-1,j)*c(N+1,j,mod)*pow(N-K+1-j,N,mod)%mod)%mod
 print ans
