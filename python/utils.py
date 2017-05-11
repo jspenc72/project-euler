@@ -83,3 +83,11 @@ def lucas(n,k,p):
         n//=p
         k//=p
     return ret
+
+def gcd(x,y):
+    while y>0:
+        x,y = y,x%y
+    return x
+
+def lcm(x,y):
+    return x//gcd(x,y)*y
