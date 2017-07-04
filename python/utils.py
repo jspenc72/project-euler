@@ -1,3 +1,5 @@
+import numpy as np
+from collections import Counter
 import functools
 
 def memoize(f):
@@ -13,7 +15,7 @@ def memoize(f):
     return mem_f
 
 def sieve(N):
-    prime = [True]*(N+1)
+    prime = np.ones(N+1, dtype=bool)
     prime[0] = prime[1] = False
     for i in xrange(2,N+1):
         if i*i>N: break
@@ -21,6 +23,19 @@ def sieve(N):
         for j in xrange(i*i,N+1,i):
             prime[j] = False
     return prime
+
+def factor(n, primes):
+    if type(primes) != np.ndarray:
+        raise Exception
+    if primes.dtype != np.int:
+        raise Exception
+    ret = Counter()
+    for p in primes:
+        if n==1: break
+        while n%p==0:
+            ret[p] += 1
+            n //= p
+    return ret
 
 def _partitions(n,k):
     if n==0:
