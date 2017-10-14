@@ -44,7 +44,7 @@ _prob = {
     '#': 1.-7*p
 }
 
-value = {}
+roman = {}
 valid = set()
 
 def prob(num):
@@ -59,13 +59,13 @@ def prob(num):
 
 for i in xrange(1000):
     num = minimize(convert(i))
-    value[i] = num + '#'
+    roman[i] = num + '#'
     valid.add(num)
     valid.add(num + '#')
 
 ans = 0.
-total = sum(prob(value[i]) for i in xrange(1000))
+total = sum(prob(roman[i]) for i in xrange(1000))
 #print total # should be 1.-p
 for i in xrange(1,1000):
-    ans += i*prob(value[i]) / total
+    ans += i*prob(roman[i]) / total
 print '%.8f' % (p / (1.-p) * 1000 + ans)
